@@ -185,81 +185,13 @@ static bool getCurrentDir(char *const dest, size_t const size)
 }
 
 
-static void getPlatformUserDir(char *const tmpstr, size_t const size)
-{
-#if defined(WZ_OS_WIN)
-//  When WZ_PORTABLE is passed, that means we want the config directory at the same location as the program file
-	DWORD dwRet;
-	wchar_t tmpWStr[MAX_PATH];
-#ifndef WZ_PORTABLE
-	if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, tmpWStr)))
-	{
-#else
-	if (dwRet = GetCurrentDirectoryW(MAX_PATH, tmpWStr))
-	{
-		if (dwRet > MAX_PATH)
-		{
-			debug(LOG_FATAL, "Buffer exceeds maximum path to create directory. Exiting.");
-			exit(1);
-		}
-#endif
-		if (WideCharToMultiByte(CP_UTF8, 0, tmpWStr, -1, tmpstr, size, NULL, NULL) == 0)
-		{
-			debug(LOG_FATAL, "Config directory encoding conversion error.");
-			exit(1);
-		}
-		strlcat(tmpstr, PHYSFS_getDirSeparator(), size);
-	}
-	else
-#elif defined(WZ_OS_MAC)
-	if (cocoaGetApplicationSupportDir(tmpstr, size))
-	{
-		strlcat(tmpstr, PHYSFS_getDirSeparator(), size);
-	}
-	else
-#endif
-		if (PHYSFS_getUserDir())
-		{
-			strlcpy(tmpstr, PHYSFS_getUserDir(), size); // Use PhysFS supplied UserDir (As fallback on Windows / Mac, default on Linux)
-		}
-	// If PhysicsFS fails (might happen if environment variable HOME is unset or wrong) then use the current working directory
-		else if (getCurrentDir(tmpstr, size))
-		{
-			strlcat(tmpstr, PHYSFS_getDirSeparator(), size);
-		}
-		else
-		{
-			debug(LOG_FATAL, "Can't get UserDir?");
-			abort();
-		}
-}
-
-
 static void initialize_ConfigDir()
 {
 	char tmpstr[PATH_MAX] = { '\0' };
 
 	if (strlen(configdir) == 0)
 	{
-		getPlatformUserDir(tmpstr, sizeof(tmpstr));
-
-		if (!PHYSFS_setWriteDir(tmpstr)) // Workaround for PhysFS not creating the writedir as expected.
-		{
-			debug(LOG_FATAL, "Error setting write directory to \"%s\": %i",
-			      tmpstr, PHYSFS_getLastErrorCode());
-			exit(1);
-		}
-
-		if (!PHYSFS_mkdir(WZ_WRITEDIR)) // s.a.
-		{
-			debug(LOG_FATAL, "Error creating directory \"%s\": %i",
-			      WZ_WRITEDIR, PHYSFS_getLastErrorCode());
-			exit(1);
-		}
-
-		// Append the Warzone subdir
-		sstrcat(tmpstr, WZ_WRITEDIR);
-		sstrcat(tmpstr, PHYSFS_getDirSeparator());
+		strlcpy(tmpstr, PHYSFS_getPrefDir("Warzone2100", WZ_WRITEDIR), sizeof(tmpstr));
 
 		if (!PHYSFS_setWriteDir(tmpstr))
 		{
