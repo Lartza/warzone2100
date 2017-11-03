@@ -293,7 +293,7 @@ bool saveFile(const char *pFileName, const char *pFileData, UDWORD fileSize)
 	}
 	else
 	{
-		debug(LOG_WZ, "Successfully wrote to %s%s with %d bytes", PHYSFS_getRealDir(pFileName), pFileName, size);
+		debug(LOG_WZ, "Successfully wrote to %s%s with %llu bytes", PHYSFS_getRealDir(pFileName), pFileName, size);
 	}
 	return true;
 }
