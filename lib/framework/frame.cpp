@@ -272,7 +272,7 @@ bool saveFile(const char *pFileName, const char *pFileData, UDWORD fileSize)
 		return false;
 	}
 
-	if (PHYSFS_write(pfile, pFileData, 1, size) != size)
+	if (PHYSFS_writeBytes(pfile, pFileData, size) != size)
 	{
 		debug(LOG_ERROR, "%s could not write: %s", pFileName, PHYSFS_getLastErrorCode());
 		assert(false);
@@ -340,5 +340,5 @@ bool PHYSFS_printf(PHYSFS_file *file, const char *format, ...)
 	vssprintf(vaBuffer, format, ap);
 	va_end(ap);
 
-	return PHYSFS_write(file, vaBuffer, strlen(vaBuffer), 1);
+	return PHYSFS_writeBytes(file, vaBuffer, strlen(vaBuffer));
 }

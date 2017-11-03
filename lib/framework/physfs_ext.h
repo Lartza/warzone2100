@@ -36,32 +36,32 @@ static inline bool PHYSFS_exists(const QString &filename)
 
 static inline bool PHYSFS_writeSLE8(PHYSFS_file *file, int8_t val)
 {
-	return (PHYSFS_write(file, &val, sizeof(int8_t), 1) == 1);
+	return (PHYSFS_writeBytes(file, &val, sizeof(int8_t)) == 1);
 }
 
 static inline bool PHYSFS_writeULE8(PHYSFS_file *file, uint8_t val)
 {
-	return (PHYSFS_write(file, &val, sizeof(uint8_t), 1) == 1);
+	return (PHYSFS_writeBytes(file, &val, sizeof(uint8_t)) == 1);
 }
 
 static inline bool PHYSFS_readSLE8(PHYSFS_file *file, int8_t *val)
 {
-	return (PHYSFS_read(file, val, sizeof(int8_t), 1) == 1);
+	return (PHYSFS_read(file, val, sizeof(int8_t)) == 1);
 }
 
 static inline bool PHYSFS_readULE8(PHYSFS_file *file, uint8_t *val)
 {
-	return (PHYSFS_read(file, val, sizeof(uint8_t), 1) == 1);
+	return (PHYSFS_read(file, val, sizeof(uint8_t)) == 1);
 }
 
 static inline bool PHYSFS_writeSBE8(PHYSFS_file *file, int8_t val)
 {
-	return (PHYSFS_write(file, &val, sizeof(int8_t), 1) == 1);
+	return (PHYSFS_writeBytes(file, &val, sizeof(int8_t)) == 1);
 }
 
 static inline bool PHYSFS_writeUBE8(PHYSFS_file *file, uint8_t val)
 {
-	return (PHYSFS_write(file, &val, sizeof(uint8_t), 1) == 1);
+	return (PHYSFS_writeBytes(file, &val, sizeof(uint8_t)) == 1);
 }
 
 static inline bool PHYSFS_readSBE8(PHYSFS_file *file, int8_t *val)
