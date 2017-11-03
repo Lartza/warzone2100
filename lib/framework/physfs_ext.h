@@ -104,7 +104,7 @@ bool PHYSFS_printf(PHYSFS_file *file, const char *format, ...) WZ_DECL_FORMAT(pr
  * @param      size Maximum number of chars to read (includes terminating null character).
  * @param      stream PHYSFS file handle.
  * @return     s on success, NULL on error or if no characters were read.
- * @note       PHYSFS_getLastError() or PHYSFS_eof() can help find the source
+ * @note       PHYSFS_getLastErrorCode() or PHYSFS_eof() can help find the source
  *                     of the error.
  * @note       If a EOF is encountered before any chars are read, the chars
  *                     pointed by s are not changed.

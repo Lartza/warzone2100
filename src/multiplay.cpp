@@ -1634,7 +1634,7 @@ bool recvMapFileRequested(NETQUEUE queue)
 	PHYSFS_file *pFileHandle = PHYSFS_openRead(filename.c_str());
 	if (pFileHandle == nullptr)
 	{
-		debug(LOG_ERROR, "Failed to open %s for reading: %s", filename.c_str(), PHYSFS_getLastError());
+		debug(LOG_ERROR, "Failed to open %s for reading: %s", filename.c_str(), PHYSFS_getLastErrorCode());
 		debug(LOG_FATAL, "You have a map (%s) that can't be located.\n\nMake sure it is in the correct directory and or format! (No map packs!)", filename.c_str());
 		// NOTE: if we get here, then the game is basically over, The host can't send the file for whatever reason...
 		// Which also means, that we can't continue.

@@ -419,7 +419,7 @@ static void frontEndNewGame(int which)
 		if (!PHYSFS_mount(path.toUtf8().constData(), nullptr, PHYSFS_APPEND))
 		{
 			debug(LOG_ERROR, "Failed to load campaign mod \"%s\": %s",
-			      path.toUtf8().constData(), PHYSFS_getLastError());
+			      path.toUtf8().constData(), PHYSFS_getLastErrorCode());
 		}
 	}
 	if (!list[which].loading.isEmpty())

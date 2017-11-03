@@ -61,7 +61,7 @@ bool NETstartLogging(void)
 	if (!pFileHandle)
 	{
 		debug(LOG_ERROR, "Could not create net log %s: %s", filename,
-		      PHYSFS_getLastError());
+		      PHYSFS_getLastErrorCode());
 		return false;
 	}
 	snprintf(buf, sizeof(buf), "NETPLAY log: %s\n", asctime(newtime));
@@ -129,7 +129,7 @@ bool NETstopLogging(void)
 
 	if (!PHYSFS_close(pFileHandle))
 	{
-		debug(LOG_ERROR, "Could not close net log: %s", PHYSFS_getLastError());
+		debug(LOG_ERROR, "Could not close net log: %s", PHYSFS_getLastErrorCode());
 		return false;
 	}
 	pFileHandle = nullptr;

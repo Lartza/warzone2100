@@ -73,7 +73,7 @@ bool PlayList_Read(const char *path)
 	debug(LOG_WZ, "Reading...[directory: %s] %s", PHYSFS_getRealDir(listName), listName);
 	if (fileHandle == nullptr)
 	{
-		debug(LOG_INFO, "PHYSFS_openRead(\"%s\") failed with error: %s\n", listName, PHYSFS_getLastError());
+		debug(LOG_INFO, "PHYSFS_openRead(\"%s\") failed with error: %s\n", listName, PHYSFS_getLastErrorCode());
 		return false;
 	}
 

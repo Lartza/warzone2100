@@ -1135,7 +1135,7 @@ static void pushInclude(const char *pIncludePath)
 
 	if(!newInput){
 		scr_error("FLEX: Couldn't open include: '%s'\n%s",
-			pIncludePath, PHYSFS_getLastError() );
+			pIncludePath, PHYSFS_getLastErrorCode() );
 	}
 
 	/* Push current flex buffer */
