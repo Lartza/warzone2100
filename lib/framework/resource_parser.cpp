@@ -1421,7 +1421,8 @@ yyreduce:
 					}
 					if (strlen((yyvsp[(2) - (2)].sval)) > 0)
 					{
-						ASSERT(PHYSFS_isDirectory(aCurrResDir), "%s is not a directory!", aCurrResDir);
+						PHYSFS_Stat statbuf;
+						ASSERT(PHYSFS_stat(aCurrResDir, &statbuf), "%s is not a directory!", aCurrResDir);
 						// Add a trailing '/'
 						len = strlen(aCurrResDir);
 						aCurrResDir[len] = '/';

@@ -166,7 +166,8 @@ PHYSFS_file *openLoadFile(const char *fileName, bool hard_fail)
 ***************************************************************************/
 static bool loadFile2(const char *pFileName, char **ppFileData, UDWORD *pFileSize, bool AllocateMem, bool hard_fail)
 {
-	if (PHYSFS_isDirectory(pFileName))
+	PHYSFS_Stat statbuf;
+	if (PHYSFS_stat(pFileName, &statbuf))
 	{
 		return false;
 	}
