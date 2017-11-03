@@ -291,26 +291,26 @@ bool rebuildSearchPath(searchPathMode mode, bool force, const char *current_map)
 				// Remove multiplay patches
 				sstrcpy(tmpstr, curSearchPath->path);
 				sstrcat(tmpstr, "mp");
-				PHYSFS_removeFromSearchPath(tmpstr);
+				PHYSFS_unmount(tmpstr);
 				sstrcpy(tmpstr, curSearchPath->path);
 				sstrcat(tmpstr, "mp.wz");
-				PHYSFS_removeFromSearchPath(tmpstr);
+				PHYSFS_unmount(tmpstr);
 
 				// Remove plain dir
-				PHYSFS_removeFromSearchPath(curSearchPath->path);
+				PHYSFS_unmount(curSearchPath->path);
 
 				// Remove base files
 				sstrcpy(tmpstr, curSearchPath->path);
 				sstrcat(tmpstr, "base");
-				PHYSFS_removeFromSearchPath(tmpstr);
+				PHYSFS_unmount(tmpstr);
 				sstrcpy(tmpstr, curSearchPath->path);
 				sstrcat(tmpstr, "base.wz");
-				PHYSFS_removeFromSearchPath(tmpstr);
+				PHYSFS_unmount(tmpstr);
 
 				// remove video search path as well
 				sstrcpy(tmpstr, curSearchPath->path);
 				sstrcat(tmpstr, "sequences.wz");
-				PHYSFS_removeFromSearchPath(tmpstr);
+				PHYSFS_unmount(tmpstr);
 				curSearchPath = curSearchPath->higherPriority;
 			}
 			break;
@@ -344,7 +344,7 @@ bool rebuildSearchPath(searchPathMode mode, bool force, const char *current_map)
 				addSubdirs(curSearchPath->path, "mods", PHYSFS_APPEND, use_override_mods ? &override_mods : &global_mods, true);
 				addSubdirs(curSearchPath->path, "mods/autoload", PHYSFS_APPEND, use_override_mods ? &override_mods : nullptr, true);
 				addSubdirs(curSearchPath->path, "mods/campaign", PHYSFS_APPEND, use_override_mods ? &override_mods : &campaign_mods, true);
-				if (!PHYSFS_removeFromSearchPath(curSearchPath->path))
+				if (!PHYSFS_unmount(curSearchPath->path))
 				{
 					debug(LOG_WZ, "* Failed to remove path %s again", curSearchPath->path);
 				}
@@ -411,7 +411,7 @@ bool rebuildSearchPath(searchPathMode mode, bool force, const char *current_map)
 						addSubdirs(curSearchPath->path, "mods/downloads", PHYSFS_APPEND, &hashList, true);
 					}
 				}
-				PHYSFS_removeFromSearchPath(curSearchPath->path);
+				PHYSFS_unmount(curSearchPath->path);
 
 				// Add multiplay patches
 				sstrcpy(tmpstr, curSearchPath->path);
@@ -450,7 +450,7 @@ bool rebuildSearchPath(searchPathMode mode, bool force, const char *current_map)
 		}
 
 		// User's home dir must be first so we always see what we write
-		PHYSFS_removeFromSearchPath(PHYSFS_getWriteDir());
+		PHYSFS_unmount(PHYSFS_getWriteDir());
 		PHYSFS_mount(PHYSFS_getWriteDir(), NULL, PHYSFS_PREPEND);
 
 #ifdef DEBUG
@@ -491,7 +491,7 @@ static MapFileList listMapFiles()
 	{
 		debug(LOG_WZ, "    [%s]", *i);
 		oldSearchPath.push_back(*i);
-		PHYSFS_removeFromSearchPath(*i);
+		PHYSFS_unmount(*i);
 	}
 	PHYSFS_freeList(searchPath);
 
@@ -527,7 +527,7 @@ static MapFileList listMapFiles()
 			{
 				filtered.push_back(realFileName);
 			}
-			PHYSFS_removeFromSearchPath(realFilePathAndName.c_str());
+			PHYSFS_unmount(realFilePathAndName.c_str());
 		}
 		else
 		{
@@ -618,7 +618,7 @@ static bool CheckInMap(const char *archive, const char *mountpoint, const char *
 	}
 	PHYSFS_freeList(filelist);
 
-	if (!PHYSFS_removeFromSearchPath(archive))
+	if (!PHYSFS_unmount(archive))
 	{
 		debug(LOG_ERROR, "Could not unmount %s, %i", archive, PHYSFS_getLastErrorCode());
 	}
@@ -659,7 +659,7 @@ bool buildMapList()
 		}
 		PHYSFS_freeList(filelist);
 
-		if (PHYSFS_removeFromSearchPath(realFilePathAndName.c_str()) == 0)
+		if (PHYSFS_unmount(realFilePathAndName.c_str()) == 0)
 		{
 			debug(LOG_ERROR, "Could not unmount %s, %i", realFilePathAndName.c_str(), PHYSFS_getLastErrorCode());
 		}
