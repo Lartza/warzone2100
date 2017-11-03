@@ -121,77 +121,34 @@ static GAMECODE gameLoopStatus = GAMECODE_CONTINUE;
 static FOCUS_STATE focusState = FOCUS_IN;
 
 
-/*!
- * Retrieves the current working directory and copies it into the provided output buffer
- * \param[out] dest the output buffer to put the current working directory in
- * \param size the size (in bytes) of \c dest
- * \return true on success, false if an error occurred (and dest doesn't contain a valid directory)
- */
-static bool getCurrentDir(char *const dest, size_t const size)
-{
-#if defined(WZ_OS_UNIX)
-	if (getcwd(dest, size) == nullptr)
-	{
-		if (errno == ERANGE)
-		{
-			debug(LOG_ERROR, "The buffer to contain our current directory is too small (%u bytes and more needed)", (unsigned int)size);
-		}
-		else
-		{
-			debug(LOG_ERROR, "getcwd failed: %s", strerror(errno));
-		}
-
-		return false;
-	}
-#elif defined(WZ_OS_WIN)
-	wchar_t tmpWStr[PATH_MAX];
-	const int len = GetCurrentDirectoryW(PATH_MAX, tmpWStr);
-
-	if (len == 0)
-	{
-		// Retrieve Windows' error number
-		const int err = GetLastError();
-		char *err_string = NULL;
-
-		// Retrieve a string describing the error number (uses LocalAlloc() to allocate memory for err_string)
-		FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, err, 0, (char *)&err_string, 0, NULL);
-
-		// Print an error message with the above description
-		debug(LOG_ERROR, "GetCurrentDirectory failed (error code: %d): %s", err, err_string);
-
-		// Free our chunk of memory FormatMessageA gave us
-		LocalFree(err_string);
-
-		return false;
-	}
-	else if (len > size)
-	{
-		debug(LOG_ERROR, "The buffer to contain our current directory is too small (%u bytes and %d needed)", (unsigned int)size, len);
-
-		return false;
-	}
-	if (WideCharToMultiByte(CP_UTF8, 0, tmpWStr, -1, dest, size, NULL, NULL) == 0)
-	{
-		dest[0] = '\0';
-		debug(LOG_ERROR, "Encoding conversion error.");
-		return false;
-	}
-#else
-# error "Provide an implementation here to copy the current working directory in 'dest', which is 'size' bytes large."
-#endif
-
-	// If we got here everything went well
-	return true;
-}
-
-
 static void initialize_ConfigDir()
 {
 	char tmpstr[PATH_MAX] = { '\0' };
 
 	if (strlen(configdir) == 0)
 	{
-		strlcpy(tmpstr, PHYSFS_getPrefDir("Warzone2100", WZ_WRITEDIR), sizeof(tmpstr));
+		#if defined(WZ_PORTABLE)
+			DWORD dwRet;
+			wchar_t tmpWStr[MAX_PATH];
+
+			if (dwRet = GetCurrentDirectoryW(MAX_PATH, tmpWStr))
+			{
+				if (dwRet > MAX_PATH)
+				{
+					debug(LOG_FATAL, "Buffer exceeds maximum path to create directory. Exiting.");
+					exit(1);
+				}
+
+			if (WideCharToMultiByte(CP_UTF8, 0, tmpWStr, -1, tmpstr, size, NULL, NULL) == 0)
+			{
+				debug(LOG_FATAL, "Config directory encoding conversion error.");
+				exit(1);
+			}
+
+			strlcat(tmpstr, PHYSFS_getDirSeparator(), size);
+		#else
+			strlcpy(tmpstr, PHYSFS_getPrefDir("Warzone2100", WZ_WRITEDIR), sizeof(tmpstr));
+		#endif
 
 		if (!PHYSFS_setWriteDir(tmpstr))
 		{
