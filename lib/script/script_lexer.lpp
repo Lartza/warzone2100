@@ -440,7 +440,7 @@ static void pushInclude(const char *pIncludePath)
 	newInput = PHYSFS_openRead(pIncludePath);
 
 	if(!newInput){
-		scr_error("FLEX: Couldn't open include: '%s'\n%s",
+		scr_error("FLEX: Couldn't open include: '%s'\n%i",
 			pIncludePath, PHYSFS_getLastErrorCode() );
 	}
 

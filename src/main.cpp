@@ -245,14 +245,14 @@ static void initialize_ConfigDir()
 
 		if (!PHYSFS_setWriteDir(tmpstr)) // Workaround for PhysFS not creating the writedir as expected.
 		{
-			debug(LOG_FATAL, "Error setting write directory to \"%s\": %s",
+			debug(LOG_FATAL, "Error setting write directory to \"%s\": %i",
 			      tmpstr, PHYSFS_getLastErrorCode());
 			exit(1);
 		}
 
 		if (!PHYSFS_mkdir(WZ_WRITEDIR)) // s.a.
 		{
-			debug(LOG_FATAL, "Error creating directory \"%s\": %s",
+			debug(LOG_FATAL, "Error creating directory \"%s\": %i",
 			      WZ_WRITEDIR, PHYSFS_getLastErrorCode());
 			exit(1);
 		}
@@ -263,7 +263,7 @@ static void initialize_ConfigDir()
 
 		if (!PHYSFS_setWriteDir(tmpstr))
 		{
-			debug(LOG_FATAL, "Error setting write directory to \"%s\": %s",
+			debug(LOG_FATAL, "Error setting write directory to \"%s\": %i",
 			      tmpstr, PHYSFS_getLastErrorCode());
 			exit(1);
 		}
@@ -282,7 +282,7 @@ static void initialize_ConfigDir()
 
 		if (!PHYSFS_setWriteDir(tmpstr)) // Workaround for PhysFS not creating the writedir as expected.
 		{
-			debug(LOG_FATAL, "Error setting write directory to \"%s\": %s",
+			debug(LOG_FATAL, "Error setting write directory to \"%s\": %i",
 			      tmpstr, PHYSFS_getLastErrorCode());
 			exit(1);
 		}
@@ -314,7 +314,7 @@ static void initialize_PhysicsFS(const char *argv_0)
 
 	if (!result)
 	{
-		debug(LOG_FATAL, "There was a problem trying to init Physfs.  Error was %s", PHYSFS_getLastErrorCode());
+		debug(LOG_FATAL, "There was a problem trying to init Physfs.  Error was %i", PHYSFS_getLastErrorCode());
 		exit(-1);
 	}
 }

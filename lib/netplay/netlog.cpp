@@ -60,7 +60,7 @@ bool NETstartLogging(void)
 	pFileHandle = PHYSFS_openWrite(filename);   // open the file
 	if (!pFileHandle)
 	{
-		debug(LOG_ERROR, "Could not create net log %s: %s", filename,
+		debug(LOG_ERROR, "Could not create net log %s: %i", filename,
 		      PHYSFS_getLastErrorCode());
 		return false;
 	}
@@ -129,7 +129,7 @@ bool NETstopLogging(void)
 
 	if (!PHYSFS_close(pFileHandle))
 	{
-		debug(LOG_ERROR, "Could not close net log: %s", PHYSFS_getLastErrorCode());
+		debug(LOG_ERROR, "Could not close net log: %i", PHYSFS_getLastErrorCode());
 		return false;
 	}
 	pFileHandle = nullptr;

@@ -104,7 +104,7 @@ bool strresLoad(STR_RES *psRes, const char *fileName)
 	debug(LOG_WZ, "Reading...[directory %s] %s", PHYSFS_getRealDir(fileName), fileName);
 	if (!input.input.physfsfile)
 	{
-		debug(LOG_ERROR, "strresLoadFile: PHYSFS_openRead(\"%s\") failed with error: %s\n", fileName, PHYSFS_getLastErrorCode());
+		debug(LOG_ERROR, "strresLoadFile: PHYSFS_openRead(\"%s\") failed with error: %i\n", fileName, PHYSFS_getLastErrorCode());
 		return false;
 	}
 

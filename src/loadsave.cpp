@@ -381,14 +381,14 @@ void deleteSaveGame(char *saveGameName)
 		// Delete the file
 		if (!PHYSFS_delete(del_file))
 		{
-			debug(LOG_ERROR, "Warning [%s] could not be deleted due to PhysicsFS error: %s", del_file, PHYSFS_getLastErrorCode());
+			debug(LOG_ERROR, "Warning [%s] could not be deleted due to PhysicsFS error: %i", del_file, PHYSFS_getLastErrorCode());
 		}
 	}
 	PHYSFS_freeList(files);
 
 	if (!PHYSFS_delete(saveGameName))		// now (should be)empty directory
 	{
-		debug(LOG_ERROR, "Warning directory[%s] could not be deleted because %s", saveGameName, PHYSFS_getLastErrorCode());
+		debug(LOG_ERROR, "Warning directory[%s] could not be deleted because %i", saveGameName, PHYSFS_getLastErrorCode());
 	}
 
 	return;

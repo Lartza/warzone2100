@@ -2006,7 +2006,7 @@ int NETrecvFile(NETQUEUE queue)
 		int noError = PHYSFS_close(file->handle);
 		if (noError == 0)
 		{
-			debug(LOG_ERROR, "Could not close file handle after trying to save map: %s", PHYSFS_getLastErrorCode());
+			debug(LOG_ERROR, "Could not close file handle after trying to save map: %i", PHYSFS_getLastErrorCode());
 		}
 		file->handle = nullptr;
 		NetPlay.wzFiles.erase(file);
