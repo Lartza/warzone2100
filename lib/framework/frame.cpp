@@ -262,7 +262,7 @@ PHYSFS_file *openSaveFile(const char *fileName)
 bool saveFile(const char *pFileName, const char *pFileData, UDWORD fileSize)
 {
 	PHYSFS_file *pfile;
-	PHYSFS_uint32 size = fileSize;
+	PHYSFS_uint64 size = fileSize;
 
 	debug(LOG_WZ, "We are to write (%s) of size %d", pFileName, fileSize);
 	pfile = openSaveFile(pFileName);
