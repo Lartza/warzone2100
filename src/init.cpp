@@ -506,8 +506,7 @@ static MapFileList listMapFiles()
 			for (char **file = filelist; *file != nullptr; ++file)
 			{
 				std::string isDir = std::string("multiplay/maps/") + *file;
-				PHYSFS_Stat statbuf;
-				if (PHYSFS_stat(isDir.c_str(), &statbuf))
+				if (PHYSFS_stat(isDir.c_str(), NULL))
 				{
 					continue;
 				}
@@ -600,8 +599,7 @@ static bool CheckInMap(const char *archive, const char *mountpoint, const char *
 	for (char **file = filelist; *file != nullptr; ++file)
 	{
 		std::string checkfile = *file;
-		PHYSFS_Stat statbuf;
-		if (PHYSFS_stat((checkpath + checkfile).c_str(), &statbuf))
+		if (PHYSFS_stat((checkpath + checkfile).c_str(), NULL))
 		{
 			if (checkfile.compare("wrf") == 0 || checkfile.compare("stats") == 0 || checkfile.compare("components") == 0
 			    || checkfile.compare("effects") == 0 || checkfile.compare("messages") == 0

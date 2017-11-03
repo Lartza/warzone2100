@@ -837,8 +837,7 @@ int realmain(int argc, char *argv[])
 		{
 			ssprintf(modtocheck, "mods/global/%s", modname.c_str());
 			result = PHYSFS_exists(modtocheck);
-			PHYSFS_Stat statbuf;
-			result |= PHYSFS_stat(modtocheck, &statbuf);
+			result |= PHYSFS_stat(modtocheck, NULL);
 			if (!result)
 			{
 				debug(LOG_ERROR, "The (global) mod (%s) you have specified doesn't exist!", modtocheck);
@@ -853,8 +852,7 @@ int realmain(int argc, char *argv[])
 		{
 			ssprintf(modtocheck, "mods/campaign/%s", modname.c_str());
 			result = PHYSFS_exists(modtocheck);
-			PHYSFS_Stat statbuf;
-			result |= PHYSFS_stat(modtocheck, &statbuf);
+			result |= PHYSFS_stat(modtocheck, NULL);
 			if (!result)
 			{
 				debug(LOG_ERROR, "The mod_ca (%s) you have specified doesn't exist!", modtocheck);
@@ -869,8 +867,7 @@ int realmain(int argc, char *argv[])
 		{
 			ssprintf(modtocheck, "mods/multiplay/%s", modname.c_str());
 			result = PHYSFS_exists(modtocheck);
-			PHYSFS_Stat statbuf;
-			result |= PHYSFS_stat(modtocheck, &statbuf);
+			result |= PHYSFS_stat(modtocheck, NULL);
 			if (!result)
 			{
 				debug(LOG_ERROR, "The mod_mp (%s) you have specified doesn't exist!", modtocheck);
