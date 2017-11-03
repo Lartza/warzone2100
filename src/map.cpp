@@ -1541,7 +1541,7 @@ bool writeVisibilityData(const char *fileName)
 	fileHeader.version = CURRENT_VERSION_NUM;
 
 	// Write out the current file header
-	if (PHYSFS_writeBytes(fileHandle, fileHeader.aFileType, sizeof(fileHeader.aFileType)) != 1
+	if (PHYSFS_writeBytes(fileHandle, fileHeader.aFileType, sizeof(fileHeader.aFileType)) != sizeof(fileHeader.aFileType)
 	    || !PHYSFS_writeUBE32(fileHandle, fileHeader.version))
 	{
 		debug(LOG_ERROR, "writeVisibilityData: could not write header to %s; PHYSFS error: %i", fileName, PHYSFS_getLastErrorCode());

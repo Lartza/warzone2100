@@ -111,7 +111,7 @@ struct GAME_SAVEHEADER
 
 static bool serializeSaveGameHeader(PHYSFS_file *fileHandle, const GAME_SAVEHEADER *serializeHeader)
 {
-	if (PHYSFS_writeBytes(fileHandle, serializeHeader->aFileType, 4) != 1)
+	if (PHYSFS_writeBytes(fileHandle, serializeHeader->aFileType, 4) != 4)
 	{
 		return false;
 	}
@@ -402,8 +402,8 @@ static bool deserializeMultiplayerGame(PHYSFS_file *fileHandle, MULTIPLAYERGAME 
 static bool serializePlayer(PHYSFS_file *fileHandle, const PLAYER *serializePlayer, int player)
 {
 	return (PHYSFS_writeUBE32(fileHandle, serializePlayer->position)
-	        && PHYSFS_writeBytes(fileHandle, serializePlayer->name, StringSize) == 1
-	        && PHYSFS_writeBytes(fileHandle, getAIName(player), MAX_LEN_AI_NAME) == 1
+	        && PHYSFS_writeBytes(fileHandle, serializePlayer->name, StringSize) == StringSize
+	        && PHYSFS_writeBytes(fileHandle, getAIName(player), MAX_LEN_AI_NAME) == MAX_LEN_AI_NAME
 	        && PHYSFS_writeSBE8(fileHandle, serializePlayer->difficulty)
 	        && PHYSFS_writeUBE8(fileHandle, (uint8_t)serializePlayer->allocated)
 	        && PHYSFS_writeUBE32(fileHandle, serializePlayer->colour)
@@ -504,7 +504,7 @@ static bool serializeSaveGameV7Data(PHYSFS_file *fileHandle, const SAVE_GAME_V7 
 	        && PHYSFS_writeSBE32(fileHandle, serializeGame->ScrollMinY)
 	        && PHYSFS_writeUBE32(fileHandle, serializeGame->ScrollMaxX)
 	        && PHYSFS_writeUBE32(fileHandle, serializeGame->ScrollMaxY)
-	        && PHYSFS_writeBytes(fileHandle, serializeGame->levelName, MAX_LEVEL_SIZE) == 1);
+	        && PHYSFS_writeBytes(fileHandle, serializeGame->levelName, MAX_LEVEL_SIZE) == MAX_LEVEL_SIZE);
 }
 
 static bool deserializeSaveGameV7Data(PHYSFS_file *fileHandle, SAVE_GAME_V7 *serializeGame)
@@ -909,7 +909,7 @@ struct SAVE_GAME_V18 : public SAVE_GAME_V17
 static bool serializeSaveGameV18Data(PHYSFS_file *fileHandle, const SAVE_GAME_V18 *serializeGame)
 {
 	return (serializeSaveGameV17Data(fileHandle, (const SAVE_GAME_V17 *) serializeGame)
-	        && PHYSFS_writeBytes(fileHandle, serializeGame->buildDate, MAX_STR_LENGTH) == 1
+	        && PHYSFS_writeBytes(fileHandle, serializeGame->buildDate, MAX_STR_LENGTH) == MAX_STR_LENGTH
 	        && PHYSFS_writeUBE32(fileHandle, serializeGame->oldestVersion)
 	        && PHYSFS_writeUBE32(fileHandle, serializeGame->validityKey));
 }
@@ -1321,7 +1321,7 @@ static bool serializeSaveGameV34Data(PHYSFS_file *fileHandle, const SAVE_GAME_V3
 
 	for (i = 0; i < MAX_PLAYERS; ++i)
 	{
-		if (PHYSFS_writeBytes(fileHandle, serializeGame->sPlayerName[i], StringSize) != 1)
+		if (PHYSFS_writeBytes(fileHandle, serializeGame->sPlayerName[i], StringSize) != StringSize)
 		{
 			return false;
 		}
@@ -1377,7 +1377,7 @@ static bool serializeSaveGameV38Data(PHYSFS_file *fileHandle, const SAVE_GAME_V3
 		return false;
 	}
 
-	if (PHYSFS_writeBytes(fileHandle, serializeGame->modList, modlist_string_size) != 1)
+	if (PHYSFS_writeBytes(fileHandle, serializeGame->modList, modlist_string_size) != modlist_string_size)
 	{
 		return false;
 	}
