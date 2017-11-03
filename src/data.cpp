@@ -617,7 +617,7 @@ static bool dataScriptLoad(const char *fileName, void **ppData)
 	pBuffer = (uint8_t *)malloc(fileSize * sizeof(uint8_t));
 	ASSERT_OR_RETURN(false, pBuffer, "Out of memory");
 
-	PHYSFS_read(fileHandle, pBuffer, 1, fileSize);
+	PHYSFS_readBytes(fileHandle, pBuffer, fileSize);
 
 	calcDataHash(pBuffer, fileSize, DATA_SCRIPT);
 
@@ -687,7 +687,7 @@ static bool dataScriptLoadVals(const char *fileName, void **ppData)
 	pBuffer = (uint8_t *)malloc(fileSize * sizeof(uint8_t));
 	ASSERT_OR_RETURN(false, pBuffer, "Out of memory");
 
-	PHYSFS_read(fileHandle, pBuffer, 1, fileSize);
+	PHYSFS_readBytes(fileHandle, pBuffer, fileSize);
 
 	calcDataHash(pBuffer, fileSize, DATA_SCRIPTVAL);
 

@@ -32,7 +32,7 @@ static void wzpng_read_data(png_structp ctx, png_bytep area, png_size_t size)
 {
 	PHYSFS_file *fileHandle = (PHYSFS_file *)png_get_io_ptr(ctx);
 
-	PHYSFS_read(fileHandle, area, 1, size);
+	PHYSFS_readBytes(fileHandle, area, size);
 }
 
 static void wzpng_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
@@ -95,10 +95,10 @@ bool iV_loadImage_PNG(const char *fileName, iV_Image *image)
 	ASSERT_OR_RETURN(false, fileHandle != nullptr, "Could not open %s: %i", fileName, PHYSFS_getLastErrorCode());
 
 	// Read PNG header from file
-	readSize = PHYSFS_read(fileHandle, PNGheader, 1, PNG_BYTES_TO_CHECK);
+	readSize = PHYSFS_readBytes(fileHandle, PNGheader, PNG_BYTES_TO_CHECK);
 	if (readSize < PNG_BYTES_TO_CHECK)
 	{
-		debug(LOG_FATAL, "pie_PNGLoadFile: PHYSFS_read(%s) failed with error: %i\n", fileName, PHYSFS_getLastErrorCode());
+		debug(LOG_FATAL, "pie_PNGLoadFile: PHYSFS_readBytes(%s) failed with error: %i\n", fileName, PHYSFS_getLastErrorCode());
 		PNGReadCleanup(&info_ptr, &png_ptr, fileHandle);
 		return false;
 	}

@@ -140,7 +140,7 @@ static char *readShaderBuf(const char *name)
 	buffer = (char *)malloc(filesize + 1);
 	if (buffer)
 	{
-		PHYSFS_read(fp, buffer, 1, filesize);
+		PHYSFS_readBytes(fp, buffer, filesize);
 		buffer[filesize] = '\0';
 	}
 	PHYSFS_close(fp);

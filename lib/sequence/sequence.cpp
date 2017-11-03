@@ -164,7 +164,7 @@ static int buffer_data(PHYSFS_file *in, ogg_sync_state *oy)
 	// read in 256K chunks
 	const int size = 262144;
 	char *buffer = ogg_sync_buffer(oy, size);
-	int bytes = PHYSFS_read(in, buffer, 1, size);
+	int bytes = PHYSFS_readBytes(in, buffer, size);
 
 	ogg_sync_wrote(oy, bytes);
 	return (bytes);

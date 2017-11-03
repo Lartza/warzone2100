@@ -86,7 +86,7 @@ static size_t wz_oggVorbis_read(void *ptr, size_t size, size_t nmemb, void *data
 	fileHandle = ((struct OggVorbisDecoderState *)datasource)->fileHandle;
 	ASSERT(fileHandle != nullptr, "Bad PhysicsFS file handle passed in");
 
-	return PHYSFS_read(fileHandle, ptr, 1, size * nmemb);
+	return PHYSFS_readBytes(fileHandle, ptr, size * nmemb);
 }
 
 static int wz_oggVorbis_seek(void *datasource, ogg_int64_t offset, int whence)
